@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML Tags Practice</title>
+</head>
+<body>
+    <header>
+        <h1>HTML Tags Practice Project</h1>
+    </header>
+
+    <main>
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+
+            <!-- Left Column: Form Section -->
+            <section style="flex: 1; min-width: 400px; padding: 10px; border: 1px solid black;">
+                <h2>Registration Form</h2>
+                <form>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name"><br><br>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email"><br><br>
+
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password"><br><br>
+
+                    <p>Gender:</p>
+                    <input type="radio" id="male" name="gender" value="male">
+                    <label for="male">Male</label>
+                    <input type="radio" id="female" name="gender" value="female">
+                    <label for="female">Female</label><br><br>
+
+                    <p>Interests:</p>
+                    <input type="checkbox" id="coding" name="interest" value="coding">
+                    <label for="coding">Coding</label>
+                    <input type="checkbox" id="music" name="interest" value="music">
+                    <label for="music">Music</label><br><br>
+
+                    <label for="country">Country:</label>
+                    <select id="country" name="country">
+                        <option>India</option>
+                        <option>USA</option>
+                        <option>UK</option>
+                    </select><br><br>
+
+                    <label for="message">Message:</label><br>
+                    <textarea id="message" name="message"></textarea><br><br>
+
+                    <input type="submit" value="Submit">
+                    <button type="submit" value="clear">clear</button><br><br>
+
+                    <h3>Previous Registrations</h3>
+                    <table style="border:1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+                        <th>
+                            <tr style="background-color: #f2f2f2;">
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Gender</th>
+                                <th>Interests</th>
+                                <th>Country</th>
+                                <th>Message</th>
+                            </tr>
+                        </th>
+                        <tbody>
+                            <tr>
+                                <td>Arjun Sharma</td>
+                                <td>arjun@example.com</td>
+                                <td>Male</td>
+                                <td>Coding, Music</td>
+                                <td>India</td>
+                                <td>Excited to join!</td>
+                            </tr>
+                            <tr>
+                                <td>Sophia Brown</td>
+                                <td>sophia@example.com</td>
+                                <td>Female</td>
+                                <td>Music</td>
+                                <td>USA</td>
+                                <td>Happy to be here!</td>
+                            </tr>
+                            <tr>
+                                <td>Ravi Kumar</td>
+                                <td>ravi.kumar@example.com</td>
+                                <td>Male</td>
+                                <td>Coding</td>
+                                <td>UK</td>
+                                <td>Looking forward to learning.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </section>
+
+            <!-- Middle Column: Media Section -->
+            <section style="flex: 1; min-width: 400px; padding: 10px; border: 1px solid black;">
+                <h2>Media Showcase</h2>
+                <img src="imgs/HTML Tags - Week 1.png" alt="Sample Image" width="450" height="200"><br><br>
+                <audio controls>
+                    <source src="media/alarms.mp3" type="audio/mpeg">
+                </audio><br><br>
+                <video width="450" height="200" controls>
+                    <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                </video><br><br>
+                <iframe src="https://www.wikipedia.org/wiki/HTML" width="450" height="250"></iframe>
+            </section>
+
+            <!-- Right Column: HTML Tags List -->
+            <aside style="flex: 1; min-width: 300px; padding: 10px; border: 1px solid black;">
+                <h2>Tags & Topics in This Exercise</h2>
+                <img src="imgs/HTMLTags-Week1.png" width="500" height="300">
+                <ul>
+                    <li>html, head, body</li>
+                    <li>h1 to h6</li>
+                    <li>a, p, br</li>
+                    <li>ol, ul, li</li>
+                    <li>select, option</li>
+                    <li>button</li>
+                    <li>input
+                        <ol>
+                            <li>text</li>
+                            <li>submit</li>
+                            <li>email</li>
+                            <li>password</li>
+                            <li>radio</li>
+                            <li>checkbox</li>
+                        </ol>
+                    </li>
+                    <li>label</li>
+                    <li>textarea</li>
+                    <li>img, video, audio</li>
+                    <li>form</li>
+                    <li>div</li>
+                    <li>header, main, section, article, footer, aside</li>
+                    <li>table, tr, td, th</li>
+                    <li>iframe</li>
+                </ul>
+                <article>
+                    <h2>How to Learn HTML</h2>
+                    <p>
+                        <a href="https://www.w3schools.com/html/">This guide will help you to learn HTML</a>
+                    </p>
+                </article>
+               
+            </aside>
+        </div>
+    </main>
+
+    <footer style="margin-top: 10px; text-align: center;">
+        <p>&copy; 2025 HTML Practice Project</p>
+    </footer>
+</body>
+</html>

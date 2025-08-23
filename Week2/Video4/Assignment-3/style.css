@@ -1,0 +1,62 @@
+
+ * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+        display: flex;
+        justify-content: center;
+        margin: 10px;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px;
+      height: 80vh;
+      width:50vw;
+      margin: 0 auto;
+      justify-content: center;
+
+
+    }
+
+    .header {
+      background: rgb(242, 138, 138);
+      height: 100px;
+    }
+
+    .menu {
+      display: flex;
+      gap: 10px;
+    }
+
+    .menu div {
+      flex: 1;
+      background: rgb(116, 204, 156);
+      height: 200px;
+    }
+
+    .middle {
+      display: flex;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .content {
+      flex: 2;
+      background: peachpuff;
+    }
+
+    .sidebar {
+      flex: 1;
+      background: rgb(155, 163, 236)
+    }
+
+    .footer {
+      background: rgb(142, 216, 241); 
+      height: 100px;
+    }
