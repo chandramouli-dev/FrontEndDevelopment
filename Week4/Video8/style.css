@@ -1,0 +1,21 @@
+.parent{
+    border:5px solid blue;
+    width: 600px;
+    height: 600px;
+  
+}
+
+.child{
+    border:5px solid green;
+    width: 400px;
+    height: 400px;
+   
+}
+
+.grandchild{
+    border: 5px solid red;
+    width: 200px;
+    height: 200px;
+    position: absolute;
+  
+}

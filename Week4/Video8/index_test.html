@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Positioning Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .layout {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    /* Left area */
+    .parent {
+      width: 300px;
+      height: 300px;
+      background: lightblue;
+      margin: 20px;
+      position: static; /* no default relative here */
+    }
+
+    .child {
+      width: 200px;
+      height: 200px;
+      background: lightgreen;
+      margin: 20px;
+      /* NOTE: no position defined here — toggled by .relative class */
+    }
+
+    .grandchild {
+      width: 100px;
+      height: 100px;
+      background: tomato;
+      position: absolute; /* default */
+      top: 20px;
+      left: 20px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    /* toggle class used for both parent and child */
+    .relative {
+      position: relative;
+    }
+
+    /* right controls */
+    .controls {
+      padding: 10px;
+      border: 1px solid #ccc;
+      background: #f9f9f9;
+      border-radius: 8px;
+      min-width: 320px;
+    }
+    .controls h3 { margin-top: 0; }
+    .status { margin-top: 15px; font-weight: bold; color: #333; }
+
+    pre {
+      background: #222;
+      color: #0f0;
+      padding: 10px;
+      border-radius: 6px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+
+    /* small helper so sticky demo sticks inside child when child is positioned */
+    .child-inner {
+      height: 100%;
+      overflow: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Test CSS Positioning</h2>
+
+  <div class="layout">
+    <!-- LEFT: boxes -->
+    <div class="parent" id="parentBox">
+      Parent
+      <div class="child" id="childBox">
+        <div class="child-inner">
+          Child
+          <div class="grandchild" id="grandchildBox">Grandchild</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: controls + css view -->
+    <div class="controls">
+      <h3>Ancestor Options</h3>
+      <label><input type="radio" name="positionOption" value="none"> None</label><br><br>
+      <label><input type="radio" name="positionOption" value="parent"> Parent has position: relative</label><br><br>
+      <label><input type="radio" name="positionOption" value="child" checked> Child has position: relative</label>
+
+      <h3 style="margin-top:16px">Grandchild Position</h3>
+      <label><input type="radio" name="grandchildPos" value="static"> static</label><br>
+      <label><input type="radio" name="grandchildPos" value="relative"> relative</label><br>
+      <label><input type="radio" name="grandchildPos" value="absolute" checked> absolute</label><br>
+      <label><input type="radio" name="grandchildPos" value="fixed"> fixed</label><br>
+      <label><input type="radio" name="grandchildPos" value="sticky"> sticky</label><br>
+
+      <div class="status" id="statusBox">Grandchild is currently anchored to: CHILD</div>
+
+      <h3 style="margin-top:14px">Applied CSS</h3>
+      <pre id="cssCode"></pre>
+    </div>
+  </div>
+
+  <!-- spacer so page can scroll and you can test fixed/sticky -->
+  <div style="height:900px;"></div>
+
+  <script>
+    const parentBox = document.getElementById('parentBox');
+    const childBox = document.getElementById('childBox');
+    const grandchildBox = document.getElementById('grandchildBox');
+
+    const ancestorRadios = document.querySelectorAll('input[name="positionOption"]');
+    const grandchildRadios = document.querySelectorAll('input[name="grandchildPos"]');
+
+    const statusBox = document.getElementById('statusBox');
+    const cssCode = document.getElementById('cssCode');
+
+    // defaults
+    let currentAncestor = "child";
+    let grandchildPos = "absolute";
+
+    function applyAncestor(ancestor) {
+      // toggle relative class on parent/child based on selection
+      parentBox.classList.toggle('relative', ancestor === 'parent');
+      childBox.classList.toggle('relative', ancestor === 'child');
+      currentAncestor = ancestor;
+    }
+
+    function applyGrandchildPosition(pos) {
+      grandchildPos = pos;
+      grandchildBox.style.position = pos;
+
+      // set/clear coords depending on pos
+      if (["absolute", "relative", "fixed", "sticky"].includes(pos)) {
+        grandchildBox.style.top = "20px";
+        grandchildBox.style.left = "20px";
+      } else { // 'static'
+        grandchildBox.style.top = "";
+        grandchildBox.style.left = "";
+      }
+    }
+
+    function anchoredText() {
+      if (grandchildPos === "fixed") return "VIEWPORT";
+      if (grandchildPos === "absolute") {
+        if (currentAncestor === "parent") return "PARENT";
+        if (currentAncestor === "child") return "CHILD";
+        return "BODY";
+      }
+      if (grandchildPos === "sticky") {
+        // accurate behavior: acts like relative until threshold; this text explains that
+        if (currentAncestor === "parent") return "PARENT (sticky until scrolled)";
+        if (currentAncestor === "child") return "CHILD (sticky until scrolled)";
+        return "BODY (sticky until scrolled)";
+      }
+      // static or relative
+      return "NORMAL FLOW (not anchored)";
+    }
+
+    function updateCSSPreview() {
+      let parentCSS = `.parent {\n`;
+      let childCSS = `.child {\n`;
+      let grandchildCSS = `.grandchild {\n  position: ${grandchildPos};\n`;
+
+      if (["absolute", "relative", "fixed", "sticky"].includes(grandchildPos)) {
+        grandchildCSS += `  top: 20px;\n  left: 20px;\n`;
+      }
+      grandchildCSS += `}\n`;
+
+      if (currentAncestor === "parent") {
+        parentCSS += `  position: relative;\n`;
+        childCSS += `  /* no position */\n`;
+      } else if (currentAncestor === "child") {
+        parentCSS += `  /* no position */\n`;
+        childCSS += `  position: relative;\n`;
+      } else {
+        parentCSS += `  /* no position */\n`;
+        childCSS += `  /* no position */\n`;
+      }
+
+      parentCSS += `}\n\n`;
+      childCSS += `}\n\n`;
+
+      cssCode.textContent = parentCSS + childCSS + grandchildCSS;
+      statusBox.textContent = `Grandchild is currently anchored to: ${anchoredText()}`;
+    }
+
+    // event wiring
+    ancestorRadios.forEach(r => r.addEventListener('change', () => {
+      if (!r.checked) return;
+      applyAncestor(r.value);
+      updateCSSPreview();
+    }));
+
+    grandchildRadios.forEach(r => r.addEventListener('change', () => {
+      if (!r.checked) return;
+      applyGrandchildPosition(r.value);
+      updateCSSPreview();
+    }));
+
+    // initialize defaults (Child relative + grandchild absolute)
+    applyAncestor(currentAncestor);
+    applyGrandchildPosition(grandchildPos);
+    updateCSSPreview();
+  </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+🔲 content-box (default)
+width and height apply only to the content area.
+Padding and border are added outside the declared width/height.
+Example: width: 200px; padding: 20px; border: 5px; → total width = 200 + 40 + 10 = 250px.
+
+🔳 border-box
+width and height include content + padding + border.
+Padding and border are squeezed inside the declared width/height.
+Example: width: 200px; padding: 20px; border: 5px; → total width = 200px.
+
+📝 Key notes
+Margins are never included in either mode — they always sit outside.
+border-box is usually preferred for layouts → more predictable sizing.
+set * { box-sizing: border-box; } at the start of a project.
+Use content-box if you want the declared size to be pure content only.

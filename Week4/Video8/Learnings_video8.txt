@@ -1,0 +1,55 @@
+CSS Positioning – Learning Notes
+1. Static (default)
+    Every element is position: static; unless specified.
+    Normal document flow (top-to-bottom, left-to-right).
+    top, left, right, bottom → don’t work here.
+
+2. Relative
+    Stays in the normal document flow, but can be shifted using top/left/right/bottom.      
+    The “shift” is relative to its original position.
+    Still occupies the original space → others don’t move into it.
+
+3. Absolute
+    Removed from normal flow.
+    Positioned relative to the nearest positioned ancestor (relative, absolute, fixed, or sticky).
+    If no ancestor is positioned, it’s relative to the <html> (page itself).
+    Great for overlays, tooltips, precise placements.
+
+4. Fixed
+    Stays fixed relative to the viewport (the screen).
+    Doesn’t move when you scroll.
+    Common use: navbars, floating buttons, sticky headers.
+
+5. Sticky
+    Hybrid of relative + fixed. 
+    Acts like relative until you scroll to a threshold (top, left, etc.).
+    Then it “sticks” like fixed until its parent container is out of view.
+    Useful for sticky headers in tables, sections, etc.
+
+6. Top / Left / Right / Bottom
+    Work only with positioned elements (not static).
+    Define offset from the reference point (original position, ancestor, or viewport).
+
+Quick Tip:
+Always ask: “Relative to what?”
+relative → its own original spot
+absolute → nearest positioned ancestor
+fixed → viewport
+sticky → its container + scroll position
+
+Case 1: No position: relative on parent or child
+    .grandchild (absolute) looks for the nearest positioned ancestor.
+    Since neither parent nor child is positioned, it falls back to the page <html>/<body>.
+    Result: Red grandchild is placed 20px from the page’s top-left corner, not inside parent/child.
+Case 2: position: relative on parent
+    Now, .parent is the nearest positioned ancestor.
+    .grandchild positions itself 20px from the parent’s top-left corner.
+    It will stay inside parent regardless of where parent is placed.
+Case 3: position: relative on child
+    .child becomes the nearest positioned ancestor.
+    .grandchild moves 20px from the child’s top-left corner.
+    So, red box “sticks” inside the green child instead of the blue parent.
+
+Key Takeaway
+    absolute always anchors to the nearest ancestor with position: relative|absolute|fixed|sticky.
+    If none found, it anchors to the <html>/<body> (the entire page).
