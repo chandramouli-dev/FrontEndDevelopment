@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Positioning Demo</title>
+  <title>Positioning Demo (with scroll for sticky/fixed)</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
+      line-height: 1.4;
     }
 
     .layout {
@@ -15,43 +16,46 @@
       align-items: flex-start;
     }
 
-    /* Left area */
     .parent {
-      width: 300px;
-      height: 300px;
+      width: 320px;
+      height: 400px;
       background: lightblue;
       margin: 20px;
-      position: static; /* no default relative here */
+      position: static;
     }
 
     .child {
-      width: 200px;
-      height: 200px;
+      width: 250px;
+      height: 300px;         /* taller */
       background: lightgreen;
       margin: 20px;
-      /* NOTE: no position defined here — toggled by .relative class */
+      overflow: auto;        /* so sticky works inside */
+    }
+
+    .child-inner {
+      height: 600px;         /* taller inner content to create scrollbar */
+      padding: 5px;
     }
 
     .grandchild {
-      width: 100px;
-      height: 100px;
+      width: 120px;
+      height: 60px;
       background: tomato;
-      position: absolute; /* default */
-      top: 20px;
-      left: 20px;
       color: #fff;
+      font-weight: bold;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: bold;
+
+      position: absolute; /* default */
+      top: 20px;
+      left: 20px;
     }
 
-    /* toggle class used for both parent and child */
     .relative {
       position: relative;
     }
 
-    /* right controls */
     .controls {
       padding: 10px;
       border: 1px solid #ccc;
@@ -71,10 +75,16 @@
       white-space: pre-wrap;
     }
 
-    /* small helper so sticky demo sticks inside child when child is positioned */
-    .child-inner {
-      height: 100%;
-      overflow: auto;
+    /* spacer so window scrolls (for fixed demo) */
+    .page-spacer {
+      height: 1200px;
+      background: repeating-linear-gradient(
+        45deg,
+        #f0f0f0,
+        #f0f0f0 20px,
+        #fafafa 20px,
+        #fafafa 40px
+      );
     }
   </style>
 </head>
@@ -82,19 +92,28 @@
 
   <h2>Test CSS Positioning</h2>
 
+  <p>👉 Scroll inside the green <b>Child</b> box to test <code>sticky</code>.  
+     👉 Scroll the entire page to test <code>fixed</code>.</p>
+
   <div class="layout">
     <!-- LEFT: boxes -->
     <div class="parent" id="parentBox">
       Parent
       <div class="child" id="childBox">
         <div class="child-inner">
-          Child
+          Child (scroll me ↓)
           <div class="grandchild" id="grandchildBox">Grandchild</div>
+          <p>Lots of content here…</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vitae velit at lacus.</p>
+          <p>Keep scrolling inside child…</p>
+          <p>Sticky will pin when it reaches the top of green box.</p>
+          <p>More filler text…</p>
+          <p>Even more filler text…</p>
         </div>
       </div>
     </div>
 
-    <!-- RIGHT: controls + css view -->
+    <!-- RIGHT: controls -->
     <div class="controls">
       <h3>Ancestor Options</h3>
       <label><input type="radio" name="positionOption" value="none"> None</label><br><br>
@@ -115,8 +134,7 @@
     </div>
   </div>
 
-  <!-- spacer so page can scroll and you can test fixed/sticky -->
-  <div style="height:900px;"></div>
+  <div class="page-spacer"></div>
 
   <script>
     const parentBox = document.getElementById('parentBox');
@@ -129,12 +147,10 @@
     const statusBox = document.getElementById('statusBox');
     const cssCode = document.getElementById('cssCode');
 
-    // defaults
-    let currentAncestor = "child";
+    let currentAncestor = "child"; // default
     let grandchildPos = "absolute";
 
     function applyAncestor(ancestor) {
-      // toggle relative class on parent/child based on selection
       parentBox.classList.toggle('relative', ancestor === 'parent');
       childBox.classList.toggle('relative', ancestor === 'child');
       currentAncestor = ancestor;
@@ -144,31 +160,28 @@
       grandchildPos = pos;
       grandchildBox.style.position = pos;
 
-      // set/clear coords depending on pos
       if (["absolute", "relative", "fixed", "sticky"].includes(pos)) {
         grandchildBox.style.top = "20px";
         grandchildBox.style.left = "20px";
-      } else { // 'static'
+      } else {
         grandchildBox.style.top = "";
         grandchildBox.style.left = "";
       }
     }
 
     function anchoredText() {
-      if (grandchildPos === "fixed") return "VIEWPORT";
+      if (grandchildPos === "fixed") return "VIEWPORT (scroll page to test)";
       if (grandchildPos === "absolute") {
         if (currentAncestor === "parent") return "PARENT";
         if (currentAncestor === "child") return "CHILD";
         return "BODY";
       }
       if (grandchildPos === "sticky") {
-        // accurate behavior: acts like relative until threshold; this text explains that
-        if (currentAncestor === "parent") return "PARENT (sticky until scrolled)";
-        if (currentAncestor === "child") return "CHILD (sticky until scrolled)";
-        return "BODY (sticky until scrolled)";
+        if (currentAncestor === "parent") return "PARENT (sticky inside parent)";
+        if (currentAncestor === "child") return "CHILD (sticky inside child)";
+        return "BODY (sticky relative to body)";
       }
-      // static or relative
-      return "NORMAL FLOW (not anchored)";
+      return "NORMAL FLOW";
     }
 
     function updateCSSPreview() {
@@ -199,7 +212,7 @@
       statusBox.textContent = `Grandchild is currently anchored to: ${anchoredText()}`;
     }
 
-    // event wiring
+    // event binding
     ancestorRadios.forEach(r => r.addEventListener('change', () => {
       if (!r.checked) return;
       applyAncestor(r.value);
@@ -212,7 +225,7 @@
       updateCSSPreview();
     }));
 
-    // initialize defaults (Child relative + grandchild absolute)
+    // init defaults
     applyAncestor(currentAncestor);
     applyGrandchildPosition(grandchildPos);
     updateCSSPreview();
