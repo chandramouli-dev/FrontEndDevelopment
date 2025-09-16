@@ -1,0 +1,116 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding:0;
+}
+
+body {
+  display: flex;
+  justify-content: center;   /* only horizontal centering */
+  margin: 0;
+  background: #f9f9f9;
+}
+
+.container{
+    max-width:50%;
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    gap:10px;
+    border: 2px solid black;
+    padding:20px;   
+    margin:20px;
+}
+
+.container > h1{
+    text-align: center;
+   
+}
+
+.green-box { background: #b2dfdb; height:20px; border: 1px solid green;}
+.blue-box { background: #bbdefb; height:100px; border:1px solid blue;}
+.orange-box { background: #ffe0b2; height:100px;border:1px solid orange;}
+.purple-box { background: #e1bee7; height:100px; border: 1px solid purple;}
+
+/*.container > div,
+.row > div {
+    padding:20px;
+}*/
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+/* --- Desktop Layout (>=1024px) --- */
+@media (min-width: 1024px) {
+    .container > h1{ font-size: x-large;}
+    .header{width:100%;}
+    .blue-row > .blue-box:nth-child(1) {flex: 2;}
+    .blue-row > .blue-box:nth-child(2) {flex: 1;}
+    .orange-row >div{flex:1;}
+    .purple-row > div {flex:1;}
+}
+
+/* --- Tablet Layout (768px – 1023px) --- */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .container > h1{ font-size: larger;}
+    .header{width:100%}
+    .blue-row{ flex-direction: column;}
+    .orange-row {
+        display: flex;
+        flex-wrap: wrap; /* <-- important - without this flex in orange-box will not take effect*/
+        gap: 10px;
+    }
+    .orange-box{flex: 1 1 calc(50% - 10px);}
+    .purple-row{
+        display: flex;
+        flex-wrap: wrap;
+        gap:10px;
+    }
+    .purple-box:nth-child(1){
+        width:100%;
+    }
+    .purple-box:nth-child(n+2){
+        flex:1 1 calc(50% - 10px);
+    }
+}
+
+/* --- Mobile Layout (<768px) --- */
+@media (max-width: 767px) {
+    .container > h1{ font-size: medium;}
+    .green-box{width:100%; height:70px;}
+    .blue-row{
+        display:flex;
+        flex-direction: column;
+    }
+    .blue-box:nth-child(1){
+        height: 50px;
+    }
+    .orange-row{
+        display:flex;
+        flex-wrap:wrap;
+        gap:10px;
+        width:90%;
+        margin-left:20px;
+    }
+
+    .orange-box:nth-child(-n+2){
+        flex: 1 1 calc(50% - 15px);
+        height:200px;
+    }
+    .orange-box:nth-child(n+3){
+        flex: 1 1 calc(100%);
+    }
+    .purple-row{
+        display: flex;
+        flex-wrap:wrap;
+        flex-direction: column;
+        width: 90%;
+        margin-left:20px;
+    }
+
+    .purple-box{
+        height:80px;
+    }
+
+}

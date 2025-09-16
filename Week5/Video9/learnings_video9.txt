@@ -1,0 +1,39 @@
+Learning Notes – Responsive Design with @media
+1. What is Responsive Design?
+    Responsive Design = making a webpage look good on different screen sizes (desktop, tablet, mobile).
+    Goal: adapt layout, font sizes, and element proportions dynamically.
+
+2. 🛠️ The @media Rule
+    @media (condition) {
+        /* CSS rules here */
+    }
+    Applies styles only if the condition is true.
+    Common conditions:
+    min-width → applies when screen is at least X pixels wide.
+    max-width → applies when screen is at most X pixels wide.
+    min-width AND max-width → applies only between a range.
+
+    Example
+    @media (max-width: 768px) {
+        body { background: lightblue; }
+    }
+    Background turns light blue only on small screens (<768px).
+
+3. Typical Breakpoints
+    These are conventions, not strict rules:
+        Mobile: <768px
+        Tablet: 768px – 1023px
+        Desktop: ≥1024px
+
+4. Best Practices
+    Mobile-first approach
+    Start with styles for smallest screens.
+    Add @media (min-width: …) for bigger ones.
+    Flexbox/Grid + media queries = responsive powerhouse.
+    Flexbox handles row/column changes.
+    Media queries adjust proportions.
+
+5. Key Takeaway
+    @media queries allow CSS rules to adapt to screen size.
+    Start small → scale up with breakpoints.
+    Combine with flexbox/grid for powerful layouts.
